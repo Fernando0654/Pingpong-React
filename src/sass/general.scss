@@ -1,0 +1,27 @@
+*::after,
+*::before {
+    box-sizing: border-box;
+}
+
+:root {
+    --hue: 200;
+    --saturation: 50%;
+    --foreground-color: hsl(var(--hue), var(--saturation), 75%)
+}
+
+
+body {
+    margin: 0;
+    background-color: black;
+    overflow: hidden;
+}
+
+.paddle {
+    --position: 50;
+    position: absolute;
+    background-color: var(--foreground-color);
+    width: 1vh;
+    height: 10vh;
+    top: calc(var(--position) * 1vh);
+    transform: translateY(-50%);
+}
