@@ -10,11 +10,13 @@ const index = () => {
     let ball;
     let playerPaddle;
     let computerPaddle;
+    let playerScore = 0;
+    let computerScore = 0;
     useEffect(() => {
         ball = new Ball(ballElement.current);
         playerPaddle = new Paddle(playerPaddleElement.current);
         computerPaddle = new Paddle(computerPaddleElement.current);
-        //window.requestAnimationFrame(update);
+        window.requestAnimationFrame(update);
     }, [])
 
     function update(time) {
@@ -22,11 +24,44 @@ const index = () => {
             const delta = time - lastTime;
             ball.update(delta, [playerPaddle.rect(), computerPaddle.rect()]);
             computerPaddle.update(delta, ball.y);
+            if(gameOver()){
+                console.warn("GAME OVER!");
+                handleLose();
+            }
         }
         lastTime = time;
-        window.requestAnimationFrame(update);
+        // window.requestAnimationFrame(update);
     }
 
+    function gameOver() {
+        const rect = ball.rect();
+        return rect.right >= window.innerWidth || rect.left <= 0;
+    }
+
+    function handleLose() {
+        const rect = ball.rect();
+        if(rect.right >= window.innerWidth) {
+            playerScore++;
+            document.getElementById('player-score').innerText = playerScore;
+        } else {
+            computerScore++;
+            document.getElementById('computer-score').innerText = computerScore;
+        }
+        ball.reset();
+        computerPaddle.reset();
+        higherScore(playerScore, computerScore);
+    }
+
+    function higherScore(scoreP, scoreC) {
+        if(scoreP > scoreC) {
+            document.getElementById('player-score').style.color = "rgb(255, 145, 0)";
+            document.getElementById('computer-score').style.color = "hsl(200, 50%, 75%)";
+        } else {
+            document.getElementById('computer-score').style.color = "rgb(255, 145, 0)";
+            document.getElementById('player-score').style.color = "hsl(200, 50%, 75%)";
+        }
+    }
+ 
     document.addEventListener('mousemove', (e) => {
         playerPaddle.position = (e.y / window.innerHeight * 100) + 5;
     });
@@ -38,8 +73,8 @@ const index = () => {
                 <div id="computer-score">0</div>
             </div>
             <div className="ball" ref={ballElement}></div>
-            <div className="paddle left" ref={computerPaddleElement}></div>
-            <div className="paddle right" ref={playerPaddleElement}></div>
+            <div className="paddle left" ref={playerPaddleElement}></div>
+            <div className="paddle right" ref={computerPaddleElement}></div>
         </div>
     )
 }

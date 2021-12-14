@@ -1,8 +1,24 @@
 .paddle {
     &.left {
-        left: 1vw;
+        left: 3vw;
     }
     &.right {
-        right: 1vw;
+        right: 3vw;
+    }
+}
+
+
+.paddle {
+    --position: 50;
+    position: absolute;
+    background-color: green;
+    width: 1vh;
+    height: 10vh;
+    top: calc(var(--position) * 1vh);
+    border-radius: 10%;
+    transform: translateY(-50%);
+    //added
+    &.beated {
+        background-color: rgb(73, 73, 61);
     }
 }

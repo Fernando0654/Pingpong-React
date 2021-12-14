@@ -41,6 +41,17 @@ export default class Ball extends Component {
         }
         if (paddleRects.some(r => isCollision(r, rect))) {
             this.direction.x *= -1;
+            if(this.direction.x < 0 ) { // player touched
+                document.querySelector('.right').classList.add("beated");
+                setInterval(() => {
+                    document.querySelector('.right').classList.remove("beated");
+                }, 500);
+            } else {
+                document.querySelector('.left').classList.add("beated");
+                setInterval(() => {
+                    document.querySelector('.left').classList.remove("beated");
+                }, 500);
+            }
         }
     }
     rect() {
