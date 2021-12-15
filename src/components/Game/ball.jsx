@@ -6,7 +6,6 @@ export default class Ball extends Component {
     constructor(props) {
         super();
         this.ballObject = props;
-        this.pause = false;
         this.reset();
     }
     get x() {
@@ -35,15 +34,9 @@ export default class Ball extends Component {
         this.velocity = 0.025;
     }
     update(delta, paddleRects) {
-        if(this.pause) {
-            this.x = this.x;
-            this.y = this.y;
-            console.log("En pausa")
-            return;
-        }
         this.x += this.direction.x * this.velocity * delta;
         this.y += this.direction.y * this.velocity * delta;
-        this.velocity += 0.00001 * delta;
+        this.velocity += 0.000001 * delta;
         const rect = this.rect();
         if (rect.bottom >= window.innerHeight || rect.top <= 0) {
             this.direction.y *= -1;
