@@ -3,17 +3,16 @@
     justify-content: center;
     font-weight: bold;
     font-size: 7vh;
-    color: rgb(174, 18, 18);
+    color: rgb(255, 255, 255);
     font-family: "Bungee Outline", cursive;
     & > * {
         flex-grow: 1;
         flex-basis: 0;
         padding: 0 2vh;
         margin: 1vh 0;
-        opacity: 0.5;
+        opacity: .8;
     }
     & > :first-child {
         text-align: right;
-        border-right: 0.5vh dashed green;
     }
 }

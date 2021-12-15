@@ -1,9 +1,12 @@
-import { Component } from 'react'
+import { Component } from 'react';
+import Beat1 from "../../assets/audio/beat_1.mp3";
+import Beat2 from "../../assets/audio/beat_2.mp3"
 
 export default class Ball extends Component {
     constructor(props) {
         super();
         this.ballObject = props;
+        this.pause = false;
         this.reset();
     }
     get x() {
@@ -32,22 +35,31 @@ export default class Ball extends Component {
         this.velocity = 0.025;
     }
     update(delta, paddleRects) {
+        if(this.pause) {
+            this.x = this.x;
+            this.y = this.y;
+            console.log("En pausa")
+            return;
+        }
         this.x += this.direction.x * this.velocity * delta;
         this.y += this.direction.y * this.velocity * delta;
         this.velocity += 0.00001 * delta;
         const rect = this.rect();
         if (rect.bottom >= window.innerHeight || rect.top <= 0) {
             this.direction.y *= -1;
+            this.soundBeat(2);
         }
         if (paddleRects.some(r => isCollision(r, rect))) {
             this.direction.x *= -1;
-            if(this.direction.x < 0 ) { // player touched
+            if(this.direction.x < 0 ) {
                 document.querySelector('.right').classList.add("beated");
+                this.soundBeat(1);
                 setInterval(() => {
                     document.querySelector('.right').classList.remove("beated");
                 }, 500);
             } else {
                 document.querySelector('.left').classList.add("beated");
+                this.soundBeat(1);
                 setInterval(() => {
                     document.querySelector('.left').classList.remove("beated");
                 }, 500);
@@ -57,7 +69,17 @@ export default class Ball extends Component {
     rect() {
         return this.ballObject.getBoundingClientRect();
     }
-}
+    soundBeat(n) {
+        if(n === 1) {
+            let beat1 = new Audio(Beat1);
+            beat1.play();
+        }
+        if(n === 2) {
+            let beat2 = new Audio(Beat2);
+            beat2.play();
+        }
+    }
+ }
 
 function randomNumberBetween(min, max) {
     return Math.random() * (max - min) + min;

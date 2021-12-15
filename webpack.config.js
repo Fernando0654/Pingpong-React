@@ -1,6 +1,8 @@
 const path = require("path");
 const htmlWebpackPlugin = require("html-webpack-plugin");
 
+var SRC = path.resolve(__dirname, 'src/assets/audio');
+
 module.exports = {
   entry: ["./src/index.js"],
   output: {
@@ -42,6 +44,11 @@ module.exports = {
         type: "asset",
         test: /\.(svg|jpg|png)$/,
       },
+      {
+        test: /\.mp3$/,
+        include: SRC,
+        loader: 'file-loader'
+      }
     ],
   },
   devServer: {
