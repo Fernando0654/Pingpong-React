@@ -1,6 +1,6 @@
 import { Component } from 'react';
-import Beat1 from "../../assets/audio/beat_1.mp3";
-import Beat2 from "../../assets/audio/beat_2.mp3"
+import Beat1 from "../assets/audio/beat_1.mp3";
+import Beat2 from "../assets/audio/beat_2.mp3"
 
 export default class Ball extends Component {
     constructor(props) {

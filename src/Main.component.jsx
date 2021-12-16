@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import MainTheme from "../../assets/audio/main.mp3";
+import React, { useRef } from 'react';
+import MainTheme from "./assets/audio/main.mp3";
 
 const Start = ({start}) => {
     const firstTap = useRef(null)

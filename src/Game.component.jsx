@@ -1,27 +1,18 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 // Objects
-import Ball from "./ball";
-import Paddle from "./paddle";
+import Ball from "./Objects/ball";
+import Paddle from "./Objects/paddle";
 // Audio
-import GameOver from "../../assets/audio/lost.mp3";
-// Components
-import Menu from "../Main/index";
-import Score from './score';
-// Icons
-import { MdGames, MdPause, MdOutlinePlayArrow } from "react-icons/md";
-import { AiOutlinePoweroff } from "react-icons/ai";
+import GameOver from "./assets/audio/lost.mp3";
 
 let lastTime;
 let pause = true;
 
-const index = () => {
-    const [endGame, setendGame] = useState(false);
-    const score = useRef(null);
+const GameComponent = ({ pauseState, endState, updateScore, restart }) => {
+    pause = pauseState;
     const ballElement = useRef(null);
     const playerPaddleElement = useRef(null);
     const computerPaddleElement = useRef(null);
-    let playerScore = 0;
-    let computerScore = 0;
     let ball;
     let playerPaddle;
     let computerPaddle;
@@ -33,8 +24,9 @@ const index = () => {
         window.requestAnimationFrame(update);
         return () => {
             restart();
+            console.log("finish game")
         }
-    }, [endGame]);
+    }, [endState]);
     function update(time) {
         if (lastTime != undefined) {
             let delta;
@@ -44,7 +36,7 @@ const index = () => {
                 delta = time - lastTime;
             }
             ball.update(delta, [playerPaddle.rect(), computerPaddle.rect()]);
-            computerPaddle.update(delta, 0);
+            computerPaddle.update(delta, ball.y);
             if (gameOver()) {
                 let audioL = new Audio(GameOver);
                 audioL.play();
@@ -63,28 +55,15 @@ const index = () => {
 
     function handleLose() {
         const rect = ball.rect();
-        playerScore++;
         ball.reset();
         computerPaddle.reset();
-        if (rect.right >= window.innerWidth) {
-            playerScore++;
+        if (rect.right > window.innerWidth) {
+            updateScore({ 'winner': 'player', 'score': 1 });
         } else {
-            computerScore++;
-            document.getElementById('computer-score').innerText = computerScore + " Computer";
+            updateScore({ 'winner': 'computer', 'score': 1 });
         }
         ball.reset();
         computerPaddle.reset();
-        higherScore(playerScore, computerScore);
-    }
-
-    function higherScore(scoreP, scoreC) {
-        if (scoreP > scoreC) {
-            document.getElementById('player-score').style.color = "rgb(255, 145, 0)";
-            document.getElementById('computer-score').style.color = "hsl(200, 50%, 75%)";
-        } else {
-            document.getElementById('computer-score').style.color = "rgb(255, 145, 0)";
-            document.getElementById('player-score').style.color = "hsl(200, 50%, 75%)";
-        }
     }
 
     // document.addEventListener('mousemove', (e) => {
@@ -116,37 +95,8 @@ const index = () => {
         }
     }
 
-    const start = (user) => (
-        pause = !pause,
-        document.getElementById('player-score').innerText += " " + user);
-
-    function restart() {
-        document.querySelector('.start').style.display = "flex";
-        pause = true;
-        playerScore = 0;
-        computerScore = 0;
-        document.getElementById('player-score').innerText = playerScore;
-        document.getElementById('computer-score').innerText = computerScore + " Computer";
-        document.getElementById('player-score').style.color = "white";
-        document.getElementById('computer-score').style.color = "white";
-    }
-
     return (
         <>
-            <Menu start={start} />
-            <div className="options">
-                <button>
-                    <MdGames />
-                </button>
-                <button onClick={() => pause = !pause}>
-                    <MdPause />
-                </button>
-                <button onClick={() => setendGame(!endGame)}>
-                    <AiOutlinePoweroff />
-                </button>
-            </div>
-            <div className="division"></div>
-            <Score update={playerScore} />
             <div className="ball" ref={ballElement}></div>
             <div className="paddle left" ref={playerPaddleElement}></div>
             <div className="paddle right" ref={computerPaddleElement}></div>
@@ -154,4 +104,4 @@ const index = () => {
     )
 }
 
-export default index;
+export default GameComponent;
