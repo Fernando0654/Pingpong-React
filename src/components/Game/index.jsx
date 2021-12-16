@@ -5,16 +5,16 @@ import GameOver from "../../assets/audio/lost.mp3";
 import Menu from "../Main/index";
 
 let lastTime;
+let pause = true;
 
 const index = () => {
     const [userName, setUserName] = useState(null);
-    const [Pause, setPause] = useState(false);
+    const [Pause, setPause] = useState(true);
     const ballElement = useRef(null);
     const playerPaddleElement = useRef(null);
     const computerPaddleElement = useRef(null);
     let playerScore = 0;
     let computerScore = 0;
-    let pause = true;
     let ball;
     let playerPaddle;
     let computerPaddle;
@@ -22,19 +22,18 @@ const index = () => {
         ball = new Ball(ballElement.current);
         playerPaddle = new Paddle(playerPaddleElement.current);
         computerPaddle = new Paddle(computerPaddleElement.current);
+
         document.onkeydown = directional;
         setUserName(localStorage.getItem("userName"));
         window.requestAnimationFrame(update);
-    }, [Pause]);
+    }, []);
     function update(time) {
         if (lastTime != undefined) {
             let delta;
-            if (Pause) {
+            if (pause) {
                 delta = 0;
-                console.log("PAUSE")
             } else {
                 delta = time - lastTime;
-                console.log("PLAY")
             }
             ball.update(delta, [playerPaddle.rect(), computerPaddle.rect()]);
             computerPaddle.update(delta, ball.y);
@@ -108,14 +107,10 @@ const index = () => {
         }
     }
 
-    const changeState = () => {
-        setPause(!Pause);
-    }
-
     return (
         <>
             <Menu />
-            <div className="play" style={{ zIndex: "3000" }} onClick={changeState}>Pause ||</div>
+            <div className="play" style={{ zIndex: "3000" }} onClick={() => pause = !pause}>Pause ||</div>
             <div className="division"></div>
             <div className="score">
                 <div id="player-score">{userName} 0</div>

@@ -17,7 +17,7 @@ const Start = () => {
     }
     function start() {
         firstTap.current.style.display = "none";
-        mainTheme.play();
+       // mainTheme.play();
     }
     return (
         <div className="start" ref={menu}>
