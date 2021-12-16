@@ -1,15 +1,22 @@
 import React, { useRef, useState, useEffect } from 'react';
+// Objects
 import Ball from "./ball";
 import Paddle from "./paddle";
+// Audio
 import GameOver from "../../assets/audio/lost.mp3";
+// Components
 import Menu from "../Main/index";
+import Score from './score';
+// Icons
+import { MdGames, MdPause, MdOutlinePlayArrow } from "react-icons/md";
+import { AiOutlinePoweroff } from "react-icons/ai";
 
 let lastTime;
 let pause = true;
 
 const index = () => {
-    const [userName, setUserName] = useState(null);
-    const [Pause, setPause] = useState(true);
+    const [endGame, setendGame] = useState(false);
+    const score = useRef(null);
     const ballElement = useRef(null);
     const playerPaddleElement = useRef(null);
     const computerPaddleElement = useRef(null);
@@ -22,11 +29,12 @@ const index = () => {
         ball = new Ball(ballElement.current);
         playerPaddle = new Paddle(playerPaddleElement.current);
         computerPaddle = new Paddle(computerPaddleElement.current);
-
         document.onkeydown = directional;
-        setUserName(localStorage.getItem("userName"));
         window.requestAnimationFrame(update);
-    }, []);
+        return () => {
+            restart();
+        }
+    }, [endGame]);
     function update(time) {
         if (lastTime != undefined) {
             let delta;
@@ -36,7 +44,7 @@ const index = () => {
                 delta = time - lastTime;
             }
             ball.update(delta, [playerPaddle.rect(), computerPaddle.rect()]);
-            computerPaddle.update(delta, ball.y);
+            computerPaddle.update(delta, 0);
             if (gameOver()) {
                 let audioL = new Audio(GameOver);
                 audioL.play();
@@ -55,9 +63,11 @@ const index = () => {
 
     function handleLose() {
         const rect = ball.rect();
+        playerScore++;
+        ball.reset();
+        computerPaddle.reset();
         if (rect.right >= window.innerWidth) {
             playerScore++;
-            document.getElementById('player-score').innerText = { userName } + " " + playerScore;
         } else {
             computerScore++;
             document.getElementById('computer-score').innerText = computerScore + " Computer";
@@ -91,7 +101,6 @@ const index = () => {
             return;
         }
         if (limit > 14.29) {
-            console.log("limit bottom ", limit);
             playerPaddle.position = 93;
             return;
         }
@@ -107,15 +116,37 @@ const index = () => {
         }
     }
 
+    const start = (user) => (
+        pause = !pause,
+        document.getElementById('player-score').innerText += " " + user);
+
+    function restart() {
+        document.querySelector('.start').style.display = "flex";
+        pause = true;
+        playerScore = 0;
+        computerScore = 0;
+        document.getElementById('player-score').innerText = playerScore;
+        document.getElementById('computer-score').innerText = computerScore + " Computer";
+        document.getElementById('player-score').style.color = "white";
+        document.getElementById('computer-score').style.color = "white";
+    }
+
     return (
         <>
-            <Menu />
-            <div className="play" style={{ zIndex: "3000" }} onClick={() => pause = !pause}>Pause ||</div>
-            <div className="division"></div>
-            <div className="score">
-                <div id="player-score">{userName} 0</div>
-                <div id="computer-score">0 Computer</div>
+            <Menu start={start} />
+            <div className="options">
+                <button>
+                    <MdGames />
+                </button>
+                <button onClick={() => pause = !pause}>
+                    <MdPause />
+                </button>
+                <button onClick={() => setendGame(!endGame)}>
+                    <AiOutlinePoweroff />
+                </button>
             </div>
+            <div className="division"></div>
+            <Score update={playerScore} />
             <div className="ball" ref={ballElement}></div>
             <div className="paddle left" ref={playerPaddleElement}></div>
             <div className="paddle right" ref={computerPaddleElement}></div>

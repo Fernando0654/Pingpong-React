@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import MainTheme from "../../assets/audio/main.mp3";
 
-const Start = () => {
+const Start = ({start}) => {
     const firstTap = useRef(null)
     const menu = useRef(null);
     let mainTheme = new Audio(MainTheme);
@@ -14,16 +14,17 @@ const Start = () => {
         }
         localStorage.setItem("userName", e.target[0].value);
         menu.current.style.display = "none";
+        start(e.target[0].value);
     }
-    function start() {
+    function startApp() {
         firstTap.current.style.display = "none";
-       // mainTheme.play();
+        //mainTheme.play();
     }
     return (
         <div className="start" ref={menu}>
             <div className="before-start" ref={firstTap}>
                 <div className="wrapper-before">
-                    <a href="#" onClick={start}><span>ENTER THE GAME</span></a>
+                    <a href="#" onClick={startApp}><span>ENTER THE GAME</span></a>
                 </div>
             </div>
             <a href="#">Scores</a>
