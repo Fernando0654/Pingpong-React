@@ -8,7 +8,7 @@ import GameOver from "./assets/audio/lost.mp3";
 let lastTime;
 let pause = true;
 
-const GameComponent = ({ pauseState, endState, updateScore, restart }) => {
+const GameComponent = ({ pauseState, endState, updateScore, restart, modeGame }) => {
     pause = pauseState;
     const ballElement = useRef(null);
     const playerPaddleElement = useRef(null);
@@ -20,13 +20,17 @@ const GameComponent = ({ pauseState, endState, updateScore, restart }) => {
         ball = new Ball(ballElement.current);
         playerPaddle = new Paddle(playerPaddleElement.current);
         computerPaddle = new Paddle(computerPaddleElement.current);
-        document.onkeydown = directional;
         window.requestAnimationFrame(update);
+        setModeGame(modeGame);
         return () => {
-            restart();
-            console.log("finish game")
+            if (endState) {
+                restart();
+                return;
+            }
+            setModeGame(modeGame);
+            document.removeEventListener('mousemove', follower, true);
         }
-    }, [endState]);
+    }, [endState, modeGame]);
     function update(time) {
         if (lastTime != undefined) {
             let delta;
@@ -48,6 +52,18 @@ const GameComponent = ({ pauseState, endState, updateScore, restart }) => {
         window.requestAnimationFrame(update);
     }
 
+    const follower = (e) => {
+        playerPaddle.position = (e.y / window.innerHeight * 100) + 5;
+    }
+
+    function setModeGame(mode) {
+        if (mode) {
+            document.addEventListener('mousemove', follower, true);
+            return;
+        }
+        document.onkeydown = directional;
+    }
+
     function gameOver() {
         const rect = ball.rect();
         return rect.right >= window.innerWidth || rect.left <= 0;
@@ -65,10 +81,6 @@ const GameComponent = ({ pauseState, endState, updateScore, restart }) => {
         ball.reset();
         computerPaddle.reset();
     }
-
-    // document.addEventListener('mousemove', (e) => {
-    //     playerPaddle.position = (e.y / window.innerHeight * 100) + 5;
-    // });
 
     function directional(e) {
         e = e || window.event;

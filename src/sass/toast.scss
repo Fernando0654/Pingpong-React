@@ -1,0 +1,57 @@
+.notification {
+    display: flex;
+    width: 20vw;
+    flex-direction: row;
+    position: fixed;
+    right: 2vw;
+    bottom: 2vw;
+    color: #fff;
+    font-family: "VT323", monospace;
+    border: 1px dashed white;
+    padding: 1em;
+    svg {
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        rect {
+            fill: none;
+            stroke: #fff;
+            stroke-width: 2;
+            stroke-dasharray: 422, 0;
+            transition: all 0.35s linear;
+        }
+    }
+    .icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 15%;
+        font-size: 2rem;
+        position: relative;
+    }
+    .body-notification {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        width: 85%;
+        padding: 0.5em;
+        h1 {
+            font-weight: lighter;
+            margin: 0;
+        }
+        span {
+            color: rgb(236, 222, 222);
+        }
+    }
+    &:hover {
+        rect {
+            stroke-width: 5;
+            stroke-dasharray: 15, 310;
+            stroke-dashoffset: 48;
+            transition: all 1.35s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+    }
+}

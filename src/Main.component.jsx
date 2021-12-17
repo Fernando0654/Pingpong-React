@@ -18,7 +18,7 @@ const Start = ({start}) => {
     }
     function startApp() {
         firstTap.current.style.display = "none";
-        //mainTheme.play();
+        mainTheme.play();
     }
     return (
         <div className="start" ref={menu}>
@@ -27,7 +27,6 @@ const Start = ({start}) => {
                     <a href="#" onClick={startApp}><span>ENTER THE GAME</span></a>
                 </div>
             </div>
-            <a href="#">Scores</a>
             <div className="wrapper">
                 <span>P</span>
                 <span>I</span>
