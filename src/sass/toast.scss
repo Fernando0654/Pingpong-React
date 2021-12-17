@@ -3,12 +3,13 @@
     width: 20vw;
     flex-direction: row;
     position: fixed;
-    right: 2vw;
-    bottom: 2vw;
+    right: 0vw;
+    bottom: 0vw;
     color: #fff;
     font-family: "VT323", monospace;
     border: 1px dashed white;
     padding: 1em;
+    transition: 1s ease;
     svg {
         height: 100%;
         left: 0;

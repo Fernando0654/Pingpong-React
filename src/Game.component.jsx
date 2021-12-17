@@ -10,6 +10,7 @@ let pause = true;
 
 const GameComponent = ({ pauseState, endState, updateScore, restart, modeGame }) => {
     pause = pauseState;
+
     const ballElement = useRef(null);
     const playerPaddleElement = useRef(null);
     const computerPaddleElement = useRef(null);
@@ -23,12 +24,12 @@ const GameComponent = ({ pauseState, endState, updateScore, restart, modeGame })
         window.requestAnimationFrame(update);
         setModeGame(modeGame);
         return () => {
-            if (endState) {
+            setModeGame(modeGame);
+            document.removeEventListener('mousemove', follower, true);
+            if (!endState) {
                 restart();
                 return;
             }
-            setModeGame(modeGame);
-            document.removeEventListener('mousemove', follower, true);
         }
     }, [endState, modeGame]);
     function update(time) {
@@ -59,6 +60,7 @@ const GameComponent = ({ pauseState, endState, updateScore, restart, modeGame })
     function setModeGame(mode) {
         if (mode) {
             document.addEventListener('mousemove', follower, true);
+            document.onkeydown = '';
             return;
         }
         document.onkeydown = directional;

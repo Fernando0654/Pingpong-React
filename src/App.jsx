@@ -19,6 +19,7 @@ const App = () => {
     useEffect(() => {
         return (e) => {
             setScore({ 'winner': 'user', 'score': 0 });
+            setEndGame(true);
         }
     }, [Pause, EndGame, Score.winner, ModeGame]);
 
