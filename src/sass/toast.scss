@@ -1,58 +1,56 @@
 .notification {
     display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
     width: 20vw;
-    flex-direction: row;
+    height: 100vh;
     position: fixed;
-    right: 0vw;
-    bottom: 0vw;
-    color: #fff;
-    font-family: "VT323", monospace;
-    border: 1px dashed white;
-    padding: 1em;
+    right: 3vw;
+    bottom: 3vw;
+    gap: 1em;
+    z-index: -3;
     transition: 1s ease;
-    svg {
-        height: 100%;
-        left: 0;
-        position: absolute;
-        top: 0;
-        width: 100%;
-        rect {
-            fill: none;
-            stroke: #fff;
-            stroke-width: 2;
-            stroke-dasharray: 422, 0;
-            transition: all 0.35s linear;
-        }
-    }
-    .icon {
+    .toast {
         display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 15%;
-        font-size: 2rem;
-        position: relative;
-    }
-    .body-notification {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: center;
-        width: 85%;
-        padding: 0.5em;
-        h1 {
-            font-weight: lighter;
-            margin: 0;
+        flex-direction: row;
+        color: #fff;
+        font-family: "VT323", monospace;
+        border: 1px dashed white;
+        padding: 1em;
+        transition: 1s ease;
+        animation: appear 1s ease;
+        @keyframes appear {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0%);
+            }
         }
-        span {
-            color: rgb(236, 222, 222);
+        .icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 15%;
+            font-size: 2rem;
+            position: relative;
         }
-    }
-    &:hover {
-        rect {
-            stroke-width: 5;
-            stroke-dasharray: 15, 310;
-            stroke-dashoffset: 48;
-            transition: all 1.35s cubic-bezier(0.19, 1, 0.22, 1);
+        .body-notification {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            width: 85%;
+            padding: 0.5em;
+            h1 {
+                font-weight: lighter;
+                margin: 0;
+            }
+            span {
+                color: rgb(236, 222, 222);
+            }
         }
     }
 }

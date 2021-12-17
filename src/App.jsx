@@ -14,7 +14,7 @@ const App = () => {
     const [EndGame, setEndGame] = useState(true);
     const [Score, setScore] = useState({ winner: 'user', score: 0 });
     const [ModeGame, setModeGame] = useState(false); // if true 'onkeydown', else 'onmousemove'
-    const [NewToast, setNewToast] = useState({ title: 'Titulo', message: 'Mensaje' })
+    const [NewToast, setNewToast] = useState({});
 
     useEffect(() => {
         return (e) => {
@@ -33,7 +33,11 @@ const App = () => {
         setScore({ 'winner': 'user', 'score': 0 });
     }
     const changeModeGame = (mode) => (setModeGame(mode));
-    const newToast = (title, message) => setNewToast({ title: title, message: message });
+    const newToast = (title, message) =>(
+        setNewToast({
+            title: title, 
+            message: message
+        }));
     return (
         <>
             <MenuComponent start={start} />

@@ -9,7 +9,8 @@ const Options = ({ pauseState, pause, end, mode, toast }) => {
     function setPause() {
         pause();
         message = pauseState ? "Go ahead!" : "Waiting for you...";
-        toast("Paused", message);
+        const title = pauseState ? "Play" : "Paused";
+        toast(title, message);
     }
     function setEnd() {
         end();
