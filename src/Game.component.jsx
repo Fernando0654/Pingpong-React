@@ -16,6 +16,7 @@ const GameComponent = ({ pauseState, endState, updateScore, restart, modeGame })
     let ball;
     let playerPaddle;
     let computerPaddle;
+    
     useEffect(() => {
         ball = new Ball(ballElement.current);
         playerPaddle = new Paddle(playerPaddleElement.current);

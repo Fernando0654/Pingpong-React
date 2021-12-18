@@ -12,7 +12,7 @@ const App = () => {
     const [User, setUser] = useState("User");
     const [Pause, setPause] = useState(true);
     const [EndGame, setEndGame] = useState(true);
-    const [Score, setScore] = useState({ winner: 'user', score: 5 });
+    const [Score, setScore] = useState({ winner: 'user', score: 0 });
     const [ModeGame, setModeGame] = useState(false); // if true 'onkeydown', else 'onmousemove'
     const [NewToast, setNewToast] = useState({ id: -1, title: 'title', message: '' });
     const [IdToast, setIdToast] = useState(0);

@@ -15,7 +15,6 @@ const Toast = ({ toast }) => {
 
     useEffect(() => {
         if (Toasts.length && toast !== null) {
-            console.log(toast.id)
             const id = Toasts[Toasts.length - 1].id;
             setTimeout(() => {
                 setRemovingId(id);
