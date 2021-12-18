@@ -12,8 +12,8 @@ const Score = ({ winner, user }) => {
                 setcomputerScore(computerScore + winner.score);
             }
         }
-    }, [winner.winner]);
-    const greater = { color: 'orange' };
+    }, [winner]);
+    const greater = { color: 'red' };
     const smaller = { color: 'white' };
     return (
         <>

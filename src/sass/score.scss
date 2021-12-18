@@ -5,13 +5,13 @@
     font-size: 7vh;
     color: rgb(255, 255, 255);
     font-family: "VT323", monospace;
-    font-weight: lighter;
     text-transform: uppercase;
     & > * {
         flex-grow: 1;
         flex-basis: 0;
         padding: 0 2vh;
         margin: 1vh 0;
+        font-weight: bold;
     }
     & > :first-child {
         text-align: right;

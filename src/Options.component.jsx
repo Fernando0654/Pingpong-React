@@ -14,13 +14,13 @@ const Options = ({ pauseState, pause, end, mode, toast }) => {
     }
     function setEnd() {
         end();
-        message = "Well done!"
+        message = "See you soon :)"
         toast("Game ended", message);
     }
     function setModeGame() {
         mode(modeGame);
-        message = modeGame ? "Keyboard mode off" : "Keyboard mode on";
-        toast("Game mode changed", message);
+        message = "You can't undone this options until the game is over";
+        toast("Follower mode activated", message);
         setGame(!modeGame);
     }
     return (

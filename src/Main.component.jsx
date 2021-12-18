@@ -18,7 +18,7 @@ const Start = ({start}) => {
     }
     function startApp() {
         firstTap.current.style.display = "none";
-        // mainTheme.play();
+        mainTheme.play();
     }
     return (
         <div className="start" ref={menu}>

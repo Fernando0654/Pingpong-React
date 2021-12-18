@@ -8,8 +8,8 @@
     right: 3vw;
     bottom: 3vw;
     gap: 1em;
-    z-index: -3;
     transition: 1s ease;
+    z-index: 1000;
     .toast {
         display: flex;
         flex-direction: row;
@@ -18,7 +18,7 @@
         border: 1px dashed white;
         padding: 1em;
         transition: 1s ease;
-        animation: appear 1s ease;
+        animation: appear 0.5s ease-out, disappear 1s ease 4s forwards;
         @keyframes appear {
             from {
                 opacity: 0;
@@ -27,6 +27,12 @@
             to {
                 opacity: 1;
                 transform: translateX(0%);
+            }
+        }
+        @keyframes disappear {
+            to {
+                opacity: 0;
+                transform: translateX(100%);
             }
         }
         .icon {

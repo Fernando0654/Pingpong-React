@@ -10,7 +10,6 @@ let pause = true;
 
 const GameComponent = ({ pauseState, endState, updateScore, restart, modeGame }) => {
     pause = pauseState;
-
     const ballElement = useRef(null);
     const playerPaddleElement = useRef(null);
     const computerPaddleElement = useRef(null);
@@ -24,14 +23,19 @@ const GameComponent = ({ pauseState, endState, updateScore, restart, modeGame })
         window.requestAnimationFrame(update);
         setModeGame(modeGame);
         return () => {
-            setModeGame(modeGame);
-            document.removeEventListener('mousemove', follower, true);
-            if (!endState) {
-                restart();
-                return;
-            }
+
+            restart();
+            return;
+
         }
-    }, [endState, modeGame]);
+    }, [endState]);
+
+    useEffect(() => {
+        playerPaddle = new Paddle(playerPaddleElement.current);
+        return () => {
+            setModeGame(!modeGame);
+        }
+    }, [modeGame])
     function update(time) {
         if (lastTime != undefined) {
             let delta;
